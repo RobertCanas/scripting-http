@@ -1,14 +1,16 @@
-function getAndPrintHTML(options) {
-  var https = require('https');
+var https = require('https');
+
+function getHTML(options, callback) {
+
   /* Add your code here */
   https.get(options, function(response) {
     //var bufferData;
     var bufferDataArray = [];
     response.setEncoding('utf8');
 
-    response.on('data', function(data) {
+    response.on('data', function printHTML(html) {
       //bufferData += data;
-      bufferDataArray.push(data);
+      bufferDataArray.push(html);
     });
 
     response.on('end', function() {
@@ -16,18 +18,17 @@ function getAndPrintHTML(options) {
       console.log(bufferDataArray.toString());
       console.log('Response stream complete.');
     });
-
   });
+}
+
+function printHTML(html) {
+  console.log(html);
 }
 
 var requestOptions = {
   host: 'sytantris.github.io',
-  path: '/http-examples/step3.html'
+  path: '/http-examples/step4.html'
 };
 
-var requestOptions2 = {
-  host: 'sytantris.github.io',
-  path: '/http-examples/step2.html'
-};
-
-getAndPrintHTML(requestOptions);
+printHTML();
+getHTML(requestOptions, printHTML);
